@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+.container {
+    width: 100%;
+    height: 100vh;
+    background-image: url(pictures/cave.jpg);
+    background-size: cover;
+}
+
+.hero-stats {
+    width: 200px;
+    height: 300px;
+    background-color: blue;
+    color: white;
+    position: absolute;
+    border-radius: 25px;
+    border: 3px solid white;
+}
+
+.enemy-stats {
+    width: 200px;
+    height: 300px;
+    background-color: blue;
+    color: white;
+    position: absolute;
+    border-radius: 25px;
+    right: 10px;
+    border: 3px solid white;
+    
+
+}
+
+.hero-container {
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    bottom: 45px;
+    left: 350px;
+    background-image: url(pictures/human.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.enemy-container {
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    top: 600px;
+    right: 200px;
+    background-image: url(pictures/skeleton.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
