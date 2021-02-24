@@ -42,7 +42,7 @@ body {
     bottom: 45px;
     left: 350px;
     background-image: url(pictures/human.png);
-    background-size: cover;
+    background-size: 2600px;
     background-repeat: no-repeat;
 
 }
@@ -55,6 +55,6 @@ body {
     top: 600px;
     right: 200px;
     background-image: url(pictures/skeleton.png);
-    background-size: cover;
+    background-size: 2600px;
     background-repeat: no-repeat;
 }
