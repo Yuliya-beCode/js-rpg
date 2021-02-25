@@ -1,5 +1,5 @@
 let heroOne = {
-    name: 'John',
+    name: 'Elf',
     armor: 0.1,
     agility: 1,
     health: 100,
@@ -11,7 +11,7 @@ let heroOne = {
 }
 
 let heroSecond = {
-    name: 'Bob',
+    name: 'Human',
     armor: 0.1,
     agility: 1,
     health: 100,
@@ -46,6 +46,7 @@ let enemySecond = {
 
 let hero;
 let intervalAttack;
+let intervalHit
 
 function init() {
     const heroArray = [heroOne, heroSecond];
@@ -59,6 +60,8 @@ function init() {
     updateStates();
 
     get('attack').onclick = attack;
+    get('enemy-hit').onclick = animationHit;
+
 
 }
 
@@ -90,18 +93,18 @@ function randomInteger(min, max) {
 
 function attack() {
     let position = 0;
-    const interval = 1000;
-    const diff = 100;
+    const interval = 100;
+    const diff = 400;
 
     get('hero').style.transform = "translate(700px)"
     intervalAttack = setInterval(() => {
 
-        get('hero').style.backgroundPosition = `${position}, 0px`;
+        get('hero').style.backgroundPosition = `-${position}px -2830px`;
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
-            get('hero').style.backgroundPosition = `${position}, 0px`;
+            get('hero').style.backgroundPosition = `-${position}px -1000px`;
             get('hero').style.transform = "translate(600px)";
             animation(intervalAttack)
         }
@@ -110,7 +113,25 @@ function attack() {
     }, interval);
 }
 
-function animation (item) {
+function animationHit(character, damageContainer, damage) {
+    let position = 0;
+    const interval = 100;
+    const diff = 5;
+    intervalHit = setInterval(() => {
+        get("enemy").style.transform = `translate(0px, -${position}px)`;
+
+
+    }, interval);
+    if (positon < 30) {
+        position = position + diff
+    } else {
+        positon = 0;
+        get("enemy").style.transform = `translate(0px, 0px)`;
+        animation(intervalHit);
+    }
+}
+
+function animation(item) {
     clearInterval(item);
 
 }

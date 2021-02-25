@@ -34,6 +34,8 @@ body {
 
 }
 
+
+
 .hero-container {
     width: 200px;
     height: 200px;
@@ -43,9 +45,24 @@ body {
     background-image: url(pictures/human.png);
     background-size: 2600px;
     background-repeat: no-repeat;
-    transition: all 2s;
+    transition: translate 2s;
+    background-position: 45px -3796px;
+    transition: transform 1s;
 
 }
+
+#damageHeroContainer {
+    position: absolute;
+    top: 580px;
+    left: 465px;
+    color: wheat;
+    width: 50px;
+    height: 30px;
+    background-color: red;
+    
+}
+
+
 
 .enemy-container {
     width: 200px;
@@ -56,6 +73,19 @@ body {
     background-image: url(pictures/skeleton.png);
     background-size: 2600px;
     background-repeat: no-repeat;
+    transition: translate 2s;
+    transition: transform 1s;
+}
+
+#damageEnemyContainer {
+    position: absolute;
+    top: 580px;
+    right: 280px;
+    color: wheat;
+    width: 50px;
+    height: 30px;
+    background-color: red;
+    
 }
 
 .controls {
