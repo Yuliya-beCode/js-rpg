@@ -23,7 +23,7 @@ let heroSecond = {
 }
 
 let enemyOne = {
-    name: 'Bad',
+    name: 'Orc',
     armor: 0.1,
     agility: 1,
     health: 100,
@@ -34,7 +34,7 @@ let enemyOne = {
 }
 
 let enemySecond = {
-    name: 'veryBad',
+    name: 'Skeleton',
     armor: 0.1,
     agility: 1,
     health: 100,
@@ -46,7 +46,7 @@ let enemySecond = {
 
 let hero;
 let intervalAttack;
-let intervalHit
+let intervalHit;
 
 function init() {
     const heroArray = [heroOne, heroSecond];
@@ -60,7 +60,7 @@ function init() {
     updateStates();
 
     get('attack').onclick = attack;
-    get('enemy-hit').onclick = animationHit;
+    /**  get('enemy-hit').onclick = animateHit;*/
 
 
 }
@@ -106,6 +106,10 @@ function attack() {
             position = 0;
             get('hero').style.backgroundPosition = `-${position}px -1000px`;
             get('hero').style.transform = "translate(600px)";
+            animateHit('enemy', 'damageEnemyContainer', 34);
+            setTimeout(() => {
+                attackEnemy()
+            }, 2000);
             animation(intervalAttack)
         }
 
@@ -113,23 +117,57 @@ function attack() {
     }, interval);
 }
 
-function animationHit(character, damageContainer, damage) {
-    let position = 0;
-    const interval = 100;
-    const diff = 5;
-    intervalHit = setInterval(() => {
-        get("enemy").style.transform = `translate(0px, -${position}px)`;
 
+
+function attackEnemy() {
+    let position = -0;
+    const interval = 170;
+    const diff = 415;
+    // document.getElementById("enemy").style.transform = "translate(100px,-150px)"
+    intervalEnemyAtackAnim = setInterval(() => {
+
+      document.getElementById("enemy").style.backgroundPosition =
+        `-${position}px -2505px`;
+
+      if (position < 2000) {
+        position = position + diff;
+      } else {
+        position = -0;
+        document.getElementById("enemy").style.backgroundPosition =
+          `-0px -2505px`;
+        // document.getElementById("enemy").style.transform = "translate(0px,0px)"
+        stopAnimate(intervalEnemyAtackAnim)
+      }
 
     }, interval);
-    if (positon < 30) {
-        position = position + diff
-    } else {
-        positon = 0;
-        get("enemy").style.transform = `translate(0px, 0px)`;
-        animation(intervalHit);
-    }
 }
+
+function animateHit(character, damageContainer, damage) {
+    let position = 0;
+    const interval = 140;
+    const diff = 5;
+    intervalHit = setInterval(() => {
+
+        document.getElementById(character).style.transform = `translate(0px, -${position}px)`;
+        document.getElementById('damageEnemyContainer').innerHTML = damage;
+       document.getElementById('damageEnemyContainer').style.display = "block";
+        document.getElementById('damageEnemyContainer').style.transform =
+          `translate(0px, -${position}px)`; 
+
+
+        if (position < 30) {
+            position = position + diff;
+        } else {
+            position = 0;
+            document.getElementById(character).style.transform = "translate(0px,0px)"
+            document.getElementById('damageEnemyContainer').style.transform = "translate(0px,0px)"
+             document.getElementById('damageEnemyContainer').style.display = "none";
+            animation(intervalHit);
+        }
+
+    }, interval);
+}
+
 
 function animation(item) {
     clearInterval(item);

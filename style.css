@@ -59,19 +59,20 @@ body {
     width: 50px;
     height: 30px;
     background-color: red;
+    display: none;
     
 }
 
 
 
 .enemy-container {
-    width: 200px;
+    width: 170px;
     height: 200px;
     position: absolute;
-    top: 600px;
+    bottom: 45px;
     right: 200px;
     background-image: url(pictures/skeleton.png);
-    background-size: 2600px;
+    background-size: 2508px;
     background-repeat: no-repeat;
     transition: translate 2s;
     transition: transform 1s;
@@ -85,6 +86,7 @@ body {
     width: 50px;
     height: 30px;
     background-color: red;
+    display: none;
     
 }
 
