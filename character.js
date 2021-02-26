@@ -28,6 +28,7 @@ let enemyOne = {
     agility: 1,
     health: 100,
     type: '',
+    damage: 10,
     money: 0,
     imageUrl: 'pictures/orc.png'
 
@@ -39,6 +40,7 @@ let enemySecond = {
     agility: 1,
     health: 100,
     type: '',
+    damage: 10,
     money: 0,
     imageUrl: 'pictures/skeleton.png'
 
@@ -63,6 +65,14 @@ function init() {
     document.getElementById("hero").style.backgroundImage = `url(${hero.imageUrl})`;
     updateStats();
 
+
+    let enemyIndex = prompt('Please choose your enemy 0 - enemyOne, 1 - enemySecond');
+    enemy = enemyArray[enemyIndex];
+    console.log(enemy)
+
+    document.getElementById("enemy").style.backgroundImage = `url(${enemy.imageUrl})`;
+    updateStatsEnemy();
+
     get('enemy-attack').onclick = attack;
     /**  get('enemy-hit').onclick = animateHit;*/
 
@@ -84,13 +94,12 @@ function updateStats() {
 
 }
 
-function updateStatsEnemy(enemySelected) {
-    get('enemy-stats').style.display = "block";
-    get('enemy-name').innerHTML = "name: " + enemySelected.name;
-    get('enemy-damage').innerHTML = "damage: " + enemySelected.damage;
-    get('enemy-armor').innerHTML = "armor: " + enemySelected.armor;
-    get('enemy-money').innerHTML = "money: " + enemySelected.money;
-    get('enemy-health').innerHTML = "health: " + enemySelected.health;
+function updateStatsEnemy() {
+    get('enemy-name').innerHTML = "name: " + enemy.name;
+    get('enemy-damage').innerHTML = "damage: " + enemy.damage;
+    get('enemy-armor').innerHTML = "armor: " + enemy.armor;
+    get('enemy-money').innerHTML = "money: " + enemy.money;
+    get('enemy-health').innerHTML = "health: " + enemy.health;
 }
 
 
@@ -104,25 +113,7 @@ function randomInteger(min, max) {
     return Math.round(randomInt);
 }
 
-function battle() {
-    nemySelected = enemySelected[randomInteger(0, enemyArray.length - 1)];
-    let confirmEnemy = confirm(
-        "You have met " +
-        enemyArray[randomInteger(0, enemyArray.length - 1)].name +
-        "Would you like to battle? Or flee?"
-    );
 
-    if (confirmEnemy) {
-        get("enemy").style.backgroundImage = `url(${enemySelected.imageUlr})`;
-        get("enemy").style.display = "block";
-        get("enemy-attack").style.display = "block";
-        get("enemy-hit").style.display = "none";
-        updateStatsEnemy(enemySelected);
-    } else {
-        hero.health -= enemySelected.damage;
-        updateStats();
-    }
-}
 
 function attack() {
     let position = 0;
@@ -158,23 +149,22 @@ function attackEnemy() {
     const interval = 100;
     const diff = 800;
 
-    intervalEnemyAtackAnim = setInterval(() => {
+    intervalEnemyAtack = setInterval(() => {
 
-        document.getElementById("enemy").style.backgroundPosition =
-            `-${position}px -2505px`;
+        get("enemy").style.backgroundPosition = `-${position}px -2505px`;
 
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
             get("enemy").style.backgroundPosition = `-0px -2550px`;
-            get('enemy').style.transform = "translate(-700px)";
+            get('enemy').style.transform = "translate(-200px)";
             animateHit('hero', 'damageHeroContainer', 34);
             setTimeout(() => {
                 attack()
 
             }, 2000);
-            animation(intervalAttack)
+            animation(intervalEnemyAtack)
 
         }
 
@@ -219,6 +209,51 @@ function animateHit(character, damageContainer, damage) {
 
     }, interval);
 }
+
+
+ function checkHealth() {
+    updateStatsEnemy();
+    updateStats();
+    if (hero.health <= 0) {
+      endGame();
+    } else if (enemy.health <= 0) {
+      hero.money += enemy.money;
+      get("enemy").style.display = "none";
+      get("hero-attack").style.display = "none";
+      get("hero-yield").style.display = "block";
+      get("enemy-stats").style.display = "none";
+      alert(`You won ${enemy.name}`);
+      get("hero-attack").style.display = "block";
+      enemy.health = 100;
+
+      return true
+    }
+  }
+
+  function heroAtack() {
+    enemy.health -= hero.damage - enemy.armor;
+    attack();
+    animateHit("enemy", "damageEnemyContainer", hero.damage - enemy.armor);
+    // checkHealth()
+    if(!checkHealth()){
+      setTimeout(() => {
+        attackEnemy();
+      }, 2500);
+    }
+
+   
+  }
+
+  function enemyAtack() {
+    hero.health -= enemy.damage - hero.armor;
+    attackEnemy();
+    animateHit("hero", "damageHeroContainer", enemy.damage - hero.armor);
+    checkHealth()
+  }
+
+  document.getElementById("hero-attack").onclick = heroAtack;
+
+  init();
 
 
 function animation(item) {
