@@ -29,7 +29,7 @@ let enemyOne = {
     health: 100,
     type: '',
     money: 0,
-    imageUrl: './pictures/orc.png'
+    imageUrl: 'pictures/orc.png'
 
 }
 
@@ -40,13 +40,14 @@ let enemySecond = {
     health: 100,
     type: '',
     money: 0,
-    imageUrl: './pictures/skeleton.png'
+    imageUrl: 'pictures/skeleton.png'
 
 }
 
 let hero;
 let intervalAttack;
 let intervalHit;
+let intervalEnemyAtack;
 
 function init() {
     const heroArray = [heroOne, heroSecond];
@@ -109,6 +110,7 @@ function attack() {
             animateHit('enemy', 'damageEnemyContainer', 34);
             setTimeout(() => {
                 attackEnemy()
+
             }, 2000);
             animation(intervalAttack)
         }
@@ -123,24 +125,24 @@ function attackEnemy() {
     let position = -0;
     const interval = 170;
     const diff = 415;
-    // document.getElementById("enemy").style.transform = "translate(100px,-150px)"
     intervalEnemyAtackAnim = setInterval(() => {
 
-      document.getElementById("enemy").style.backgroundPosition =
-        `-${position}px -2505px`;
-
-      if (position < 2000) {
-        position = position + diff;
-      } else {
-        position = -0;
         document.getElementById("enemy").style.backgroundPosition =
-          `-0px -2505px`;
-        // document.getElementById("enemy").style.transform = "translate(0px,0px)"
-        stopAnimate(intervalEnemyAtackAnim)
-      }
+            `-${position}px -2505px`;
+
+        if (position < 2000) {
+            position = position + diff;
+        } else {
+            position = -0;
+            document.getElementById("enemy").style.backgroundPosition =
+                `-0px -2505px`;        // document.getElementById("enemy").style.transform = "translate(0px,0px)"
+
+            stopAnimate(intervalEnemyAtack)
+        }
 
     }, interval);
-}
+}        // document.getElementById("enemy").style.transform = "translate(0px,0px)"
+
 
 function animateHit(character, damageContainer, damage) {
     let position = 0;
@@ -150,9 +152,9 @@ function animateHit(character, damageContainer, damage) {
 
         document.getElementById(character).style.transform = `translate(0px, -${position}px)`;
         document.getElementById('damageEnemyContainer').innerHTML = damage;
-       document.getElementById('damageEnemyContainer').style.display = "block";
+        document.getElementById('damageEnemyContainer').style.display = "block";
         document.getElementById('damageEnemyContainer').style.transform =
-          `translate(0px, -${position}px)`; 
+            `translate(0px, -${position}px)`;
 
 
         if (position < 30) {
@@ -161,7 +163,7 @@ function animateHit(character, damageContainer, damage) {
             position = 0;
             document.getElementById(character).style.transform = "translate(0px,0px)"
             document.getElementById('damageEnemyContainer').style.transform = "translate(0px,0px)"
-             document.getElementById('damageEnemyContainer').style.display = "none";
+            document.getElementById('damageEnemyContainer').style.display = "none";
             animation(intervalHit);
         }
 
