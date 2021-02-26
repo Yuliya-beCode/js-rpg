@@ -122,9 +122,10 @@ function attack() {
 
 
 function attackEnemy() {
-    let position = -0;
-    const interval = 170;
-    const diff = 415;
+    let position = 0;
+    const interval = 100;
+    const diff = 800;
+
     intervalEnemyAtackAnim = setInterval(() => {
 
         document.getElementById("enemy").style.backgroundPosition =
@@ -133,15 +134,20 @@ function attackEnemy() {
         if (position < 2000) {
             position = position + diff;
         } else {
-            position = -0;
-            document.getElementById("enemy").style.backgroundPosition =
-                `-0px -2505px`;        // document.getElementById("enemy").style.transform = "translate(0px,0px)"
+            position = 0;
+            get("enemy").style.backgroundPosition = `-0px -2550px`;
+            get('enemy').style.transform = "translate(-700px)";
+            animateHit('hero', 'damageHeroContainer', 34);
+            setTimeout(() => {
+                attack()
 
-            stopAnimate(intervalEnemyAtack)
+            }, 2000);
+            animation(intervalAttack)
+
         }
 
     }, interval);
-}        // document.getElementById("enemy").style.transform = "translate(0px,0px)"
+}
 
 
 function animateHit(character, damageContainer, damage) {
@@ -156,6 +162,12 @@ function animateHit(character, damageContainer, damage) {
         document.getElementById('damageEnemyContainer').style.transform =
             `translate(0px, -${position}px)`;
 
+        document.getElementById(character).style.transform = `translate(0px, -${position}px)`;
+        document.getElementById('damageHeroContainer').innerHTML = damage;
+        document.getElementById('damageHeroContainer').style.display = "block";
+        document.getElementById('damageHeroContainer').style.transform =
+            `translate(0px, -${position}px)`;
+
 
         if (position < 30) {
             position = position + diff;
@@ -164,6 +176,12 @@ function animateHit(character, damageContainer, damage) {
             document.getElementById(character).style.transform = "translate(0px,0px)"
             document.getElementById('damageEnemyContainer').style.transform = "translate(0px,0px)"
             document.getElementById('damageEnemyContainer').style.display = "none";
+            animation(intervalHit);
+
+
+            document.getElementById(character).style.transform = "translate(0px,0px)"
+            document.getElementById('damageHeroContainer').style.transform = "translate(0px,0px)"
+            document.getElementById('damageHeroContainer').style.display = "none";
             animation(intervalHit);
         }
 
