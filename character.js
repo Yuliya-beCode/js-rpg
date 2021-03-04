@@ -1,11 +1,10 @@
 let human = {
     name: 'Human',
     armor: 0.1,
-    agility: 1,
+    
     health: 100,
     resistance: 20,
     type: '',
-   
     damage: 10,
     imageUrl: 'pictures/human.png'
 
@@ -14,11 +13,10 @@ let human = {
 let elf = {
     name: 'Elf',
     armor: 0.1,
-    agility: 1,
+    resistance: 15,
     health: 100,
     type: '',
-  
-    damage: 10,
+    damage: 0,
     imageUrl: 'pictures/elf.png'
 
 }
@@ -26,11 +24,10 @@ let elf = {
 let orc = {
     name: 'Orc',
     armor: 0.1,
-    agility: 1,
+    resistance: 11,
     health: 100,
     type: '',
     damage: 10,
-   
     imageUrl: 'pictures/orc.png'
 
 }
@@ -38,12 +35,10 @@ let orc = {
 let skeleton = {
     name: 'Skeleton',
     armor: 0.1,
-    agility: 1,
-    health: 100,
+      health: 100,
     resistance: 20,
     type: '',
     damage: 10,
-   
     imageUrl: 'pictures/skeleton.png'
 
 }
@@ -55,12 +50,13 @@ let hero,
     intervalEnemyAttack,
     players = [human, elf, orc, skeleton];
 
+
 function init() {
     const choosePlayer = (isHero = true) => {
         let text = `Choose ${isHero ? 'hero' : 'enemy'}: `
         players.forEach((item, i) => text += `\n ${i} - ${item.name}`)
         let result = prompt(text)
-        if (result < 0 || result > players.length-1) result = choosePlayer(isHero)
+        if (result < 0 || result > players.length - 1) result = choosePlayer(isHero)
         return result
     }
 
@@ -82,8 +78,6 @@ function init() {
     document.getElementById("enemy").style.backgroundImage = `url(${enemy.imageUrl})`;
     updateStatsEnemy();
 
-    get('enemy-attack').onclick = attack;
-    /**  get('enemy-hit').onclick = animateHit;*/
 
 
 }
@@ -98,7 +92,6 @@ function updateStats() {
     get('hero-name').innerHTML = 'name: ' + hero.name;
     get('hero-damage').innerHTML = 'damage: ' + hero.damage;
     get('hero-armor').innerHTML = 'armor: ' + hero.armor;
-    
     get('hero-health').innerHTML = 'health: ' + hero.health;
 
 }
@@ -107,7 +100,6 @@ function updateStatsEnemy() {
     get('enemy-name').innerHTML = "name: " + enemy.name;
     get('enemy-damage').innerHTML = "damage: " + enemy.damage;
     get('enemy-armor').innerHTML = "armor: " + enemy.armor;
-    
     get('enemy-health').innerHTML = "health: " + enemy.health;
 }
 
@@ -122,25 +114,59 @@ function randomInteger(min, max) {
 }
 
 
-function attack() {
+
+function checkHealth() {
+    updateStatsEnemy();
+    updateStats();
+    if (hero.health <= 0 || enemy.health <= 0) {
+        endGame();
+        get("enemy").style.display = "none";
+        get("hero-attack").style.display = "none";
+        get("hero-yield").style.display = "block";
+        get("enemy-stats").style.display = "none";
+        alert(`You won ${enemy.name}`);
+        get("hero-attack").style.display = "block";
+        enemy.health = 100;
+    }
+}
+
+
+/** attack on an enemy */
+get('enemy-attack').onclick = heroAtack;
+
+function heroAtack() {
+    enemy.health -= hero.damage - enemy.armor + enemy.resistance;
+
+    heroAnimation();
+    animateHit("enemy", "damageEnemyContainer", enemy.health);
+    // checkHealth()
+    if (!checkHealth()) {
+        setTimeout(() => {
+            heroAnimation();
+        }, 2500);
+    }
+}
+
+
+function heroAnimation() {
     let position = 0;
     const interval = 100;
     const diff = 400;
 
-    get('hero').style.transform = "translate(700px)"
+    get('hero').style.transform = "translate(300px)"
     intervalAttack = setTimeout(() => {
 
-        get('hero').style.backgroundPosition = `-${position}px -2830px`;
-        enemyAtack()
+        get('hero').style.backgroundPosition = `-${position}px -1800px`;
+        heroAnimation()
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
-            get('hero').style.backgroundPosition = `-${position}px -1000px`;
-            get('hero').style.transform = "translate(600px)";
-            animateHit('enemy', 'damageEnemyContainer', 34);
+            get('hero').style.backgroundPosition = `-${position}px -3600px`;
+            get('hero').style.transform = "translate(-600px)";
+            HeroAttack('enemy', 'damageEnemyContainer', 34);
             setTimeout(() => {
-                attackEnemy()
+                HeroAttack()
 
             }, 2000);
             animation(intervalAttack)
@@ -151,37 +177,76 @@ function attack() {
 }
 
 
-function attackEnemy() {
+/** attack on a hero */
+
+get('hero-attack').onclick = enemyAtack;
+
+function enemyAtack() {
+    hero.health -= hero.damage - enemy.armor + enemy.resistance;
+    enemyAnimation();
+    animateHit("hero", "damageHeroContainer", hero.health);
+    // checkHealth()
+    if (!checkHealth()) {
+        setTimeout(() => {
+            enemyAnimation();
+        }, 2500);
+    }
+}
+
+
+function animation(item) {
+    clearInterval(item);
+
+}
+
+
+function enemyAnimation() {
     let position = 0;
     const interval = 100;
-    const diff = 800;
+    const diff = 400;
 
-    intervalEnemyAttack = setTimeout(() => {
+    get('enemy').style.transform = "translate(-300px)"
+    intervalAttack = setTimeout(() => {
 
-        get("enemy").style.backgroundPosition = `-${position}px -2505px`;
-
+        get('emeny').style.backgroundPosition = `-${position}px -1800px`;
+        enemyAnimation()
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
-            get("enemy").style.backgroundPosition = `-0px -2550px`;
-            get('enemy').style.transform = "translate(-200px)";
-            animateHit('hero', 'damageHeroContainer', 34);
+            get('emeny').style.backgroundPosition = `-${position}px -2500px`;
+            get('emeny').style.transform = "translate(-750px)";
+            enemyAtack('hero', 'damageHeroContainer', 34);
             setTimeout(() => {
-                attack()
+                enemyAtack()
 
             }, 2000);
-            animation(intervalEnemyAttack)
-
+            animation(intervalAttack)
         }
 
     }, interval);
 }
 
 
-function animateHit(character, damageContainer, damage) {
+/**Game Over function */
+function endGame() {
+    alert("Game over!");
+    let reload = confirm("Would you like to game again?");
+    if (reload) {
+        location.reload();
+    }
+}
+
+
+
+
+
+
+/**Animation to the hit */
+
+function animateHit(character, damage) {
     let position = 0;
-    const interval = 140;
+    const interval = 40;
     const diff = 5;
     intervalHit = setInterval(() => {
 
@@ -202,13 +267,13 @@ function animateHit(character, damageContainer, damage) {
             position = position + diff;
         } else {
             position = 0;
-            get(character).style.transform = "translate(0px,0px)"
+            get('enemy').style.transform = "translate(0px,0px)"
             get('damageEnemyContainer').style.transform = "translate(0px,0px)"
             get('damageEnemyContainer').style.display = "none";
             animation(intervalHit);
 
 
-            get(character).style.transform = "translate(0px,0px)"
+            get('hero').style.transform = "translate(0px,0px)"
             get('damageHeroContainer').style.transform = "translate(0px,0px)"
             get('damageHeroContainer').style.display = "none";
             animation(intervalHit);
@@ -217,63 +282,4 @@ function animateHit(character, damageContainer, damage) {
     }, interval);
 }
 
-
-function checkHealth() {
-    updateStatsEnemy();
-    updateStats();
-    if (hero.health <= 0) {
-        endGame();
-    } else if (enemy.health <= 0) {
-        hero.money += enemy.money;
-        get("enemy").style.display = "none";
-        get("hero-attack").style.display = "none";
-        get("hero-yield").style.display = "block";
-        get("enemy-stats").style.display = "none";
-        alert(`You won ${enemy.name}`);
-        get("hero-attack").style.display = "block";
-        enemy.health = 100;
-
-        return true
-    }
-}
-
-function heroAtack() {
-    enemy.health -= hero.damage - enemy.armor;
-    attack();
-    animateHit("enemy", "damageEnemyContainer", hero.damage - enemy.armor);
-    // checkHealth()
-    if (!checkHealth()) {
-        setTimeout(() => {
-            attackEnemy();
-        }, 2500);
-    }
-
-
-}
-
-function enemyAtack() {
-    let damage = enemy.damage;
-    if (hero.resistance) damage -= (damage * hero.resistance / 100)
-
-    hero.health -= damage;
-    attackEnemy();
-    animateHit("hero", "damageHeroContainer", enemy.damage - hero.armor);
-    checkHealth()
-}
-
-document.getElementById("hero-attack").onclick = heroAtack;
-
-
-function animation(item) {
-    clearInterval(item);
-
-}
-
-
-function endGame() {
-    alert("Game over!");
-    let reload = confirm("Would you like to game again?");
-    if (reload) {
-        location.reload();
-    }
-}
+/**end animations */

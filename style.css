@@ -55,16 +55,16 @@ body {
 
 
 .hero-container {
-    width: 200px;
-    height: 200px;
+   width: 150px;
+    height: 150px;
     position: absolute;
     bottom: 45px;
     left: 350px;
     background-image: url(pictures/human.png);
-    background-size: 2600px;
+    background-size: 1800px;
     background-repeat: no-repeat;
     transition: translate 2s;
-    background-position: 45px -3796px;
+    background-position-y: -417px;
     transition: transform 1s;
 
 }
@@ -84,15 +84,18 @@ body {
 
 
 .enemy-container {
-    width: 170px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     position: absolute;
     bottom: 45px;
     right: 200px;
     background-image: url(pictures/skeleton.png);
-    background-size: 2508px;
+    background-size: 1800px;
     background-repeat: no-repeat;
-    transition: transform 5s;
+    transition: transform 2s;
+    background-position-y: -135px;
+    transition: transform 1s;
+    
 }
 
 #damageEnemyContainer {
@@ -132,4 +135,38 @@ body {
     height: 34px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+.health-bar {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 200px;
+    height: 20px;
+    padding: 5px;
+    background: #ddd;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    position: relative;
+    bottom: 65px;
+  }
+  .bar {
+    background: #c54;
+    width: 100%;
+    height: 10px;
+    position: relative;
+    
+    transition: width .5s linear;
+  }
+  
+  .hit {
+    background: rgba(255,255,255,0.6);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 0px;
+    
+    transition: width .5s linear;
+  }
 
