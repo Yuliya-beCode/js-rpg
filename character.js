@@ -1,7 +1,6 @@
 let human = {
     name: 'Human',
     armor: 0.1,
-    
     health: 100,
     resistance: 20,
     type: '',
@@ -251,13 +250,13 @@ function animateHit(character, damage) {
     intervalHit = setInterval(() => {
 
         get(character).style.transform = `translate(0px, -${position}px)`;
-        get('damageEnemyContainer').innerHTML = damage;
+        get('damageEnemyContainer').innerHTML = enemy.health;
         get('damageEnemyContainer').style.display = "block";
         get('damageEnemyContainer').style.transform =
             `translate(0px, -${position}px)`;
 
         get(character).style.transform = `translate(0px, -${position}px)`;
-        get('damageHeroContainer').innerHTML = damage;
+        get('damageHeroContainer').innerHTML = hero.health;
         get('damageHeroContainer').style.display = "block";
         get('damageHeroContainer').style.transform =
             `translate(0px, -${position}px)`;
@@ -282,4 +281,3 @@ function animateHit(character, damage) {
     }, interval);
 }
 
-/**end animations */
