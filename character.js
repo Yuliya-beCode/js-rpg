@@ -1,74 +1,83 @@
-let heroOne = {
-    name: 'Elf',
-    armor: 0.1,
-    agility: 1,
-    health: 100,
-    type: '',
-    money: 0,
-    damage: 10,
-    imageUrl: 'pictures/elf.png'
-
-}
-
-let heroSecond = {
+let human = {
     name: 'Human',
     armor: 0.1,
     agility: 1,
     health: 100,
+    resistance: 20,
     type: '',
-    money: 0,
+   
     damage: 10,
     imageUrl: 'pictures/human.png'
 
 }
 
-let enemyOne = {
+let elf = {
+    name: 'Elf',
+    armor: 0.1,
+    agility: 1,
+    health: 100,
+    type: '',
+  
+    damage: 10,
+    imageUrl: 'pictures/elf.png'
+
+}
+
+let orc = {
     name: 'Orc',
     armor: 0.1,
     agility: 1,
     health: 100,
     type: '',
     damage: 10,
-    money: 0,
+   
     imageUrl: 'pictures/orc.png'
 
 }
 
-let enemySecond = {
+let skeleton = {
     name: 'Skeleton',
     armor: 0.1,
     agility: 1,
     health: 100,
+    resistance: 20,
     type: '',
     damage: 10,
-    money: 0,
+   
     imageUrl: 'pictures/skeleton.png'
 
 }
 
-let hero;
-let intervalAttack;
-let intervalHit;
-let intervalEnemyAtack;
-let enemySelected;
-let heroArray = [heroOne, heroSecond];
-let enemyArray = [enemyOne, enemySecond];
+let hero,
+    enemy,
+    intervalAttack,
+    intervalHit,
+    intervalEnemyAttack,
+    players = [human, elf, orc, skeleton];
 
 function init() {
-    heroArray = [heroOne, heroSecond];
-    enemyArray = [enemyOne, enemySecond];
+    const choosePlayer = (isHero = true) => {
+        let text = `Choose ${isHero ? 'hero' : 'enemy'}: `
+        players.forEach((item, i) => text += `\n ${i} - ${item.name}`)
+        let result = prompt(text)
+        if (result < 0 || result > players.length-1) result = choosePlayer(isHero)
+        return result
+    }
 
-    let heroIndex = prompt('Please choose your hero 0 - heroOne, 1 - heroSecond');
-    hero = heroArray[heroIndex];
+    let heroIndex = choosePlayer()
+    console.log(heroIndex)
+    hero = players[heroIndex];
     console.log(hero)
 
     document.getElementById("hero").style.backgroundImage = `url(${hero.imageUrl})`;
     updateStats();
 
 
-    let enemyIndex = prompt('Please choose your enemy 0 - enemyOne, 1 - enemySecond');
-    enemy = enemyArray[enemyIndex];
+    let enemyIndex = choosePlayer(false)
+    enemy = players[enemyIndex];
     console.log(enemy)
+
+    document.querySelector('.container.creating').classList.remove('creating')
 
     document.getElementById("enemy").style.backgroundImage = `url(${enemy.imageUrl})`;
     updateStatsEnemy();
@@ -82,14 +91,14 @@ function init() {
 
 window.onload = function () {
     init();
-    console.log(randomInteger(1, 100))
+    // console.log(randomInteger(1, 100))
 }
 
 function updateStats() {
     get('hero-name').innerHTML = 'name: ' + hero.name;
     get('hero-damage').innerHTML = 'damage: ' + hero.damage;
     get('hero-armor').innerHTML = 'armor: ' + hero.armor;
-    get('hero-money').innerHTML = 'money: ' + hero.money;
+    
     get('hero-health').innerHTML = 'health: ' + hero.health;
 
 }
@@ -98,10 +107,9 @@ function updateStatsEnemy() {
     get('enemy-name').innerHTML = "name: " + enemy.name;
     get('enemy-damage').innerHTML = "damage: " + enemy.damage;
     get('enemy-armor').innerHTML = "armor: " + enemy.armor;
-    get('enemy-money').innerHTML = "money: " + enemy.money;
+    
     get('enemy-health').innerHTML = "health: " + enemy.health;
 }
-
 
 
 function get(item) {
@@ -114,16 +122,16 @@ function randomInteger(min, max) {
 }
 
 
-
 function attack() {
     let position = 0;
     const interval = 100;
     const diff = 400;
 
     get('hero').style.transform = "translate(700px)"
-    intervalAttack = setInterval(() => {
+    intervalAttack = setTimeout(() => {
 
         get('hero').style.backgroundPosition = `-${position}px -2830px`;
+        enemyAtack()
         if (position < 2000) {
             position = position + diff;
         } else {
@@ -143,13 +151,12 @@ function attack() {
 }
 
 
-
 function attackEnemy() {
     let position = 0;
     const interval = 100;
     const diff = 800;
 
-    intervalEnemyAtack = setInterval(() => {
+    intervalEnemyAttack = setTimeout(() => {
 
         get("enemy").style.backgroundPosition = `-${position}px -2505px`;
 
@@ -164,7 +171,7 @@ function attackEnemy() {
                 attack()
 
             }, 2000);
-            animation(intervalEnemyAtack)
+            animation(intervalEnemyAttack)
 
         }
 
@@ -211,49 +218,50 @@ function animateHit(character, damageContainer, damage) {
 }
 
 
- function checkHealth() {
+function checkHealth() {
     updateStatsEnemy();
     updateStats();
     if (hero.health <= 0) {
-      endGame();
+        endGame();
     } else if (enemy.health <= 0) {
-      hero.money += enemy.money;
-      get("enemy").style.display = "none";
-      get("hero-attack").style.display = "none";
-      get("hero-yield").style.display = "block";
-      get("enemy-stats").style.display = "none";
-      alert(`You won ${enemy.name}`);
-      get("hero-attack").style.display = "block";
-      enemy.health = 100;
+        hero.money += enemy.money;
+        get("enemy").style.display = "none";
+        get("hero-attack").style.display = "none";
+        get("hero-yield").style.display = "block";
+        get("enemy-stats").style.display = "none";
+        alert(`You won ${enemy.name}`);
+        get("hero-attack").style.display = "block";
+        enemy.health = 100;
 
-      return true
+        return true
     }
-  }
+}
 
-  function heroAtack() {
+function heroAtack() {
     enemy.health -= hero.damage - enemy.armor;
     attack();
     animateHit("enemy", "damageEnemyContainer", hero.damage - enemy.armor);
     // checkHealth()
-    if(!checkHealth()){
-      setTimeout(() => {
-        attackEnemy();
-      }, 2500);
+    if (!checkHealth()) {
+        setTimeout(() => {
+            attackEnemy();
+        }, 2500);
     }
 
-   
-  }
 
-  function enemyAtack() {
-    hero.health -= enemy.damage - hero.armor;
+}
+
+function enemyAtack() {
+    let damage = enemy.damage;
+    if (hero.resistance) damage -= (damage * hero.resistance / 100)
+
+    hero.health -= damage;
     attackEnemy();
     animateHit("hero", "damageHeroContainer", enemy.damage - hero.armor);
     checkHealth()
-  }
+}
 
-  document.getElementById("hero-attack").onclick = heroAtack;
-
-  init();
+document.getElementById("hero-attack").onclick = heroAtack;
 
 
 function animation(item) {
