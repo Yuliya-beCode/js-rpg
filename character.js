@@ -1,3 +1,5 @@
+/** parameters of the heros */
+
 let human = {
     name: 'Human',
     armor: 0.1,
@@ -6,18 +8,7 @@ let human = {
     type: '',
     damage: 10,
     imageUrl: 'pictures/human.png'
-
-}
-
-let elf = {
-    name: 'Elf',
-    armor: 0.1,
-    resistance: 15,
-    health: 100,
-    type: '',
-    damage: 0,
-    imageUrl: 'pictures/elf.png'
-
+    /**20% less damage taken */
 }
 
 let orc = {
@@ -28,19 +19,66 @@ let orc = {
     type: '',
     damage: 10,
     imageUrl: 'pictures/orc.png'
+    /**40% more max health */
+}
 
+let elf = {
+    name: 'Elf',
+    armor: 0.1,
+    resistance: 15,
+    health: 100,
+    type: '',
+    damage: 0,
+    imageUrl: 'pictures/elf.png'
+    /**30% chance to deflect the attack back to the opponent. The attacker takes damage equal to 50% of the original hit. The elf takes no damage. */
 }
 
 let skeleton = {
     name: 'Skeleton',
     armor: 0.1,
-      health: 100,
+    health: 100,
     resistance: 20,
     type: '',
     damage: 10,
     imageUrl: 'pictures/skeleton.png'
-
+    /**10% lifesteal from opponents current health at start of the vampire's turn. */
 }
+
+
+/**parameters of the items */
+
+let boots = {
+    name: 'boots',
+    type: '',
+    damage: 10,
+    imageUrl: 'pictures\boots.png'
+    /**30% chance to dodge an attack */
+}
+
+let staff = {
+    name: 'staff',
+    type: '',
+    damage: 10,
+    imageUrl: 'pictures\staff.png'
+    /**20% increase in healing*/
+}
+
+let sword = {
+    name: 'sword',
+    type: '',
+    damage: 10,
+    imageUrl: 'pictures\sword.png'
+    /**30% more damage*/
+}
+
+let bow = {
+    name: 'bow',
+    type: '',
+    damage: 10,
+    imageUrl: 'pictures\bow.png'
+    /**30% chance to attack twice*/
+}
+
 
 let hero,
     enemy,
@@ -117,15 +155,20 @@ function randomInteger(min, max) {
 function checkHealth() {
     updateStatsEnemy();
     updateStats();
-    if (hero.health <= 0 || enemy.health <= 0) {
+    if (hero.health <= 0) {
         endGame();
         get("enemy").style.display = "none";
-        get("hero-attack").style.display = "none";
-        get("hero-yield").style.display = "block";
-        get("enemy-stats").style.display = "none";
+        get("hero").style.display = "none";
         alert(`You won ${enemy.name}`);
-        get("hero-attack").style.display = "block";
+     
         enemy.health = 100;
+    }
+   else if (enemy.health <= 0) {
+        endGame();
+        get("enemy").style.display = "none";
+        get("hero").style.display = "none";
+        alert(`You won ${hero.name}`);
+      
     }
 }
 
@@ -155,20 +198,20 @@ function heroAnimation() {
     get('hero').style.transform = "translate(300px)"
     intervalAttack = setTimeout(() => {
 
-        get('hero').style.backgroundPosition = `-${position}px -1800px`;
+        get('hero').style.backgroundPosition = `-${position}px -417px`;
         heroAnimation()
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
-            get('hero').style.backgroundPosition = `-${position}px -3600px`;
-            get('hero').style.transform = "translate(-600px)";
-            HeroAttack('enemy', 'damageEnemyContainer', 34);
+            get('hero').style.backgroundPosition = `-${position}px -417px`;
+            get('hero').style.transform = "translate(-750px)";
+            heroAtack('enemy', 'damageEnemyContainer', 34);
             setTimeout(() => {
-                HeroAttack()
+                heroAtack()
 
             }, 2000);
-            animation(intervalAttack)
+            animation(intervalEnemyAttack)
         }
 
 
@@ -281,3 +324,8 @@ function animateHit(character, damage) {
     }, interval);
 }
 
+let health = document.getElementById("healthHero")
+health.value -= 10;
+
+health = document.getElementById("healthEnemy")
+health.value -= 10;
