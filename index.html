@@ -13,24 +13,20 @@
             <ul>
                 <li class="hero-name" id="hero-name"></li>
                 <li class="hero-damage" id="hero-damage"></li>
-                <li class="hero-armor" id="hero-armor"></li>
 
                 <li class="hero-health" id="hero-health"></li>
+            </ul>
         </div>
         <div class="enemy-stats">
             <ul>
                 <li class="enemy-name" id="enemy-name"></li>
                 <li class="enemy-damage" id="enemy-damage"></li>
-                <li class="enemy-armor" id="enemy-armor"></li>
-
                 <li class="enemy-health" id="enemy-health"></li>
-
-
-
+            </ul>
         </div>
 
         <div class="hero-container" id="hero">
-          
+            <i id="heroItem" class="playerItem"></i>
             <progress id="healthHero" value="100" max="100"></progress>
 
         </div>
@@ -39,11 +35,11 @@
         <div id="damageHeroContainer"></div>
 
         <div class="enemy-container" id="enemy">
-            
+            <i id="enemyItem" class="playerItem"></i>
             <progress id="healthEnemy" value="100" max="100"></progress>
-            
-            </div>
+
         </div>
+    </div>
 
 
     </div>
@@ -51,17 +47,15 @@
 
 
     <div class="controlsHero">
-        <button id="enemy-attack">attack</button>
-        <button id="enemy-heal">heal</button>
-        <button id="enemy-yield">yield</button>
-
-    </div>
-
-    <div class="controlsEnemy">
         <button id="hero-attack">attack</button>
         <button id="hero-heal">heal</button>
         <button id="hero-yield">yield</button>
+    </div>
 
+    <div class="controlsEnemy">
+        <button id="enemy-attack">attack</button>
+        <button id="enemy-heal">heal</button>
+        <button id="enemy-yield">yield</button>
     </div>
 
     </div>
@@ -72,10 +66,8 @@
 <body>
 
 
-
-
-    <script src="character.js"></script>
-    <script src="gamelogic.js"></script>
+<script src="character.js"></script>
+<script src="gamelogic.js"></script>
 </body>
 
 </html>
