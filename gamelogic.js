@@ -49,7 +49,7 @@ function init() {
 
 window.onload = function () {
     init();
-    // console.log(randomInteger(1, 100))
+
 }
 
 function updateStats() {
@@ -103,7 +103,7 @@ function changeAction(element = '', timeout = 2500) {
 
 /** attack on an enemy */
 function heroAtack() {
-    changeAction('#hero-attack',1000)
+    changeAction('#hero-attack', 1000)
     let damage = hero.damage;
     if (enemy.hasOwnProperty('resistance')) damage -= damage * enemy.resistance
 
@@ -129,14 +129,14 @@ function heroAnimation() {
     intervalAttack = setTimeout(() => {
 
         get('hero').style.backgroundPosition = `-${position}px -417px`;
-      
+
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
             get('hero').style.backgroundPosition = `-${position}px -2500px`;
             get('hero').style.transform = "translate(-750px)";
-             setTimeout(() => {
+            setTimeout(() => {
                 enemyAtack()
 
             }, 2000);
@@ -183,14 +183,14 @@ function enemyAnimation() {
     intervalAttack = setTimeout(() => {
 
         get('enemy').style.backgroundPosition = `-${position}px -1800px`;
-      
+
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
             get('emeny').style.backgroundPosition = `-${position}px -2500px`;
             get('emeny').style.transform = "translate(-750px)";
-             setTimeout(() => {
+            setTimeout(() => {
                 enemyAtack()
 
             }, 2000);
@@ -200,15 +200,6 @@ function enemyAnimation() {
     }, interval);
 }
 
-
-/**Game Over function */
-function endGame() {
-    alert("Game over!");
-    let reload = confirm("Would you like to game again?");
-    if (reload) {
-        location.reload();
-    }
-}
 
 
 /**Animation to the hit */
@@ -266,4 +257,60 @@ function changeHealth(count, who = "hero") {
     }
 
 }
+/**Lower the health of your object and create a healing function that will use the heal function. (character.js) Make it so the function uses a random number between the minHealing and maxHealing.
 
+Note: The currentHealth should NEVER go above the maxHealth */
+
+
+function getRndInteger(minHealing, maxHealing) {
+    maxHealing = 90;
+    minHealing = 10;
+    return Math.floor(Math.random() * (maxHealing - minHealing + 1)) + minHealing;
+}
+
+
+
+get('hero-heal').onclick = heroHealing;
+
+function heroHealing(who = "hero") {
+    const heroProg = document.getElementById("healthHero")
+   
+   let  maxHealth = 100;
+    if (hero.health < maxHealth){
+        hero.health = getRndInteger();
+        updateStats();
+        heroProg.value = hero.health;
+        return hero.value
+        
+    } 
+
+}
+
+
+
+get('enemy-heal').onclick = enemyHealing;
+
+function enemyHealing(who = "enemy") {
+    const enemyProg = document.getElementById("healthEnemy")
+   
+   let  maxHealth = 100;
+    if (enemy.health < maxHealth){
+        enemy.health = getRndInteger();
+        updateStatsEnemy();
+        enemyProg.value =enemy.health;
+        return enemy.value
+        
+    } 
+
+
+}
+
+
+/**Game Over function */
+function endGame() {
+    alert("Game over!");
+    let reload = confirm("Would you like to game again?");
+    if (reload) {
+        location.reload();
+    }
+}
