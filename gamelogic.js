@@ -127,21 +127,22 @@ function heroAnimation() {
 
     get('hero').style.transform = "translate(300px)"
     intervalAttack = setTimeout(() => {
+
         get('hero').style.backgroundPosition = `-${position}px -417px`;
-        heroAnimation()
+      
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
-            get('hero').style.backgroundPosition = `-${position}px -417px`;
+            get('hero').style.backgroundPosition = `-${position}px -2500px`;
             get('hero').style.transform = "translate(-750px)";
-            heroAtack('enemy', 'damageEnemyContainer', 34);
-            setTimeout(() => {
-                heroAtack()
+             setTimeout(() => {
+                enemyAtack()
 
             }, 2000);
-            animation(intervalEnemyAttack)
+            animation(intervalAttack)
         }
+
     }, interval);
 }
 
@@ -182,15 +183,14 @@ function enemyAnimation() {
     intervalAttack = setTimeout(() => {
 
         get('enemy').style.backgroundPosition = `-${position}px -1800px`;
-        enemyAnimation()
+      
         if (position < 2000) {
             position = position + diff;
         } else {
             position = 0;
             get('emeny').style.backgroundPosition = `-${position}px -2500px`;
             get('emeny').style.transform = "translate(-750px)";
-            enemyAtack('hero', 'damageHeroContainer', 34);
-            setTimeout(() => {
+             setTimeout(() => {
                 enemyAtack()
 
             }, 2000);
