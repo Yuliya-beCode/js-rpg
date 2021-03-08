@@ -178,3 +178,60 @@ body {
     transition: width .5s linear;
   }
 
+  @media only screen and (max-width: 600px) {
+    /* For mobile phones: */
+    .container {
+        width: 136%;
+        height: 138vh;
+        background-image: url(pictures/cave.jpg);
+        background-size: cover;
+    }
+
+    .hero-stats {
+        width: 200px;
+        height: 86px;
+        background-color: #575786;
+        color: white;
+        position: absolute;
+        border-radius: 25px;
+        top: 208px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .controlsHero {
+        justify-content: space-between;
+        display: flex;
+        justify-content: space-between;
+        width: max-content;
+        position: absolute;
+        top: 315px;
+        left: 31px;
+        height: 34px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .enemy-stats {
+        width: 200px;
+        height: 86px;
+        background-color: #575786;
+        color: white;
+        position: absolute;
+        border-radius: 25px;
+        right: -133px;
+        top: 208px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .controlsEnemy {
+        justify-content: space-between;
+        display: flex;
+        justify-content: space-between;
+        width: max-content;
+        position: absolute;
+        top: 315px;
+        right: -97px;
+        height: 34px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+  }
