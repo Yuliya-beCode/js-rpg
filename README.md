@@ -11,30 +11,30 @@
 
 #### Items
 
-- Boots 
+- **Boots** 
 *30% chance to dodge an attack*
 
-- Staff
+- **Staff**
 *20% increase in healing*
 
-- Sword
+- **Sword**
 *30% more damage*
 
-- Bow
+- **Bow**
 *30% chance to attack twice*
 
 #### Race
 
-- Humans
+- **Humans**
 *20% less damage taken*
 
-- Orcs
+- **Orcs**
 *40% more max health*
 
-- Elves
+- **Elves**
 *30% chance to deflect the attack back to the opponent. The attacker takes damage equal to 50% of the original hit. The elf takes no damage.*
 
-- Sceleton
+- **Sceleton**
 *10% lifesteal from opponents current health at start of the vampire's turn.*
 
 #### Order
